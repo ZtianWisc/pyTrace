@@ -94,13 +94,74 @@ def draw_CDF():
     plt.show()
     return
 
-# TODO:
+# draw_histogram
+
+def load_files_size(file_name: str, read_files, write_files):
+    brower = None
+    with open(file_name) as fp:
+        line = fp.readline()
+        while(line):
+            line = fp.readline()
+            if len(line) < 2:
+                break
+            (stime, etime, UID, PID, D, BLOCK, SIZE, COMM, PATHNAME) = line.split()
+            if brower == None:
+                brower = COMM
+            if D == "W":
+                write_files[PATHNAME].append(float(SIZE))  # access number  acess size
+            elif D == "R":
+                read_files[PATHNAME].append(float(SIZE))
+    return brower
+
 def draw_histogram():
-    return
+    file_names = [
+        "chrome.bingmaps.log", 
+        "safari.bingmaps.log", 
+        "firefox.bingmaps.log",
+        "chrome.googlemaps.log", 
+        "safari.googlemaps.log", 
+        "firefox.googlemaps.log"]
+    for i in range(len(file_names)):
+        file_names[i] = "./traces/" + file_names[i]
+    #read_files_size_s = []
+    #write_files_size_s = []
+    #brower_s = []
+
+    for file_name in file_names:
+        read_files = defaultdict(list)
+        write_files = defaultdict(list)
+        brower = load_files_size(file_name, read_files, write_files)
+        #read_files_size_s.append(read_files_size)
+        #write_files_size_s.append(write_files_size)
+        #brower_s.append(brower)
+        read_files_number = defaultdict(list)
+        read_files_size = defaultdict(list)
+        for k, v in read_files.items():
+            read_files_number[k] = len(v)
+            read_files_size[k] = sum(v)
+        
+        write_files_number = defaultdict(list)
+        write_files_size = defaultdict(list)
+        for k, v in write_files.items():
+            write_files_number[k] = len(v)
+            write_files_size[k] = sum(v)
+
+        plt.bar(np.array(list(read_files_size.keys())), np.array(list(read_files_number.values())), width=0.1, alpha = 0.8)
+        plt.xticks(size = 'small', rotation = 60)
+        plt.title(file_name + '(read file size)')
+        plt.xlabel('file_name')
+        plt.ylabel('access number')
+        plt.show()
+    
+    # plot 
+    #for file_name in file_names:
+
+
+    
 
 
 if __name__=="__main__":
-    draw_CDF()
+    #draw_CDF()
     draw_histogram()
     
     '''
@@ -112,7 +173,6 @@ if __name__=="__main__":
     #print (np.array(list(files_size.values()))[:,0])  
     plt.bar(np.array(list(files_size.keys())), np.array(list(files_size.values()))[:,0])
     plt.xlabel('file_name')
-    plt.ylable('access number')
+    plt.ylabel('access number')
     plt.show()
     '''
-
