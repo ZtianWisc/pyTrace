@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Dict
 from collections import defaultdict
+from zplot import *
 
 # directory = os.fsencode('google.map.traces')
 THOUSAND = 1000
@@ -156,10 +157,20 @@ def draw_histogram():
     # plot 
     #for file_name in file_names:
 
+def draw_interval():
+    t = table('horizontalintervals.data')
+    canvas = postscript('horizontalintervals.eps')
+    d = drawable(canvas, coord=[50, 30], xrange=[0, 900],
+                yrange=[0, t.getmax('nodes')])
+    axis(d, xtitle='Throughput (MB)', xauto=[0, 900, 300],
+        ytitle='Nodes', yauto=[0, t.getmax('nodes'), 1])
 
+    # ylofield and yhifield specify the interval range
+    p = plotter()
+    p.horizontalintervals(d, t, yfield='nodes', xlofield='min', xhifield='max')
+
+    canvas.render()
     
-
-
 if __name__=="__main__":
     #draw_CDF()
     draw_histogram()
