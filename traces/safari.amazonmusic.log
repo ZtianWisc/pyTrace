@@ -1,0 +1,6 @@
+STIME          TIME             UID   PID D    BLOCK   SIZE       COMM PATHNAME
+512646067663   512646069371     501 48300 R 23581509   4096     Safari ??/dyld/dyld_shared_cache_x86_64
+512646069589   512646070024     501 48300 R 23581593  28672     Safari ??/dyld/dyld_shared_cache_x86_64
+512648159706   512648161271     501 48300 R 25979506   4096     Safari ??/LocalStorage/https_music.amazon.com_0.localstorage-wal
+
+
